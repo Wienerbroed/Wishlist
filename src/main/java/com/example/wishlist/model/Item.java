@@ -19,7 +19,7 @@ public class Item {
         this.price = price;
     }
 
-    //getters
+    //getter
     public String getName() {
         return name;
     }
