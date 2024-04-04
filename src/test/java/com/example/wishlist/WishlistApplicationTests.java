@@ -13,8 +13,4 @@ public class WishlistApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    public void contextLoads() throws Exception {
-        // Your test logic here
-    }
 }
