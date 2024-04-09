@@ -2,7 +2,6 @@ package com.example.wishlist.controller;
 
 import ch.qos.logback.core.model.Model;
 import com.example.wishlist.model.Account;
-import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.service.UserService;
 import com.example.wishlist.service.WishlistService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
 @Controller
 public class WishlistController {
     @Autowired
@@ -23,10 +20,18 @@ public class WishlistController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
-    public void registerAccount(Account register) {
-        wishlistService.registerAccount(register.getUsername(), register.getPassword());
+
+
+    @GetMapping("/register")
+    public String showRegisterPage() {
+        return "register";
     }
+    @PostMapping("/register")
+    public String registerAccount(Account account) {
+        userService.saveAccount(account);
+        return "redirect:/login";
+    }
+
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";

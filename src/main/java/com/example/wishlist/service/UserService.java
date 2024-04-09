@@ -1,5 +1,8 @@
 package com.example.wishlist.service;
 
+import com.example.wishlist.model.Account;
+import com.example.wishlist.repository.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service; // Import Spring's @Service annotation
 
 import java.sql.Connection;
@@ -10,6 +13,9 @@ import java.sql.SQLException;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     private static final String JDBC_URL = "jdbc:mysql://myfirstserverkeapaul.mysql.database.azure.com:3306/wishlist_db";
     private static final String USERNAME = "rootcode";
@@ -51,4 +57,9 @@ public class UserService {
         }
         return null;
     }
+
+    public void saveAccount(Account account) {
+        accountRepository.save(account);
+    }
+
 }
