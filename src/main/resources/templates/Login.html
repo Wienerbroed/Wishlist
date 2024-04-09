@@ -9,7 +9,7 @@
 <body>
 <div class="login-container">
     <h2>Login</h2>
-    <form id="login-form">
+    <form id="login-form" method="post" action="/login"><!-- Update form action to submit to /login endpoint with POST method -->
         <div class="input-group">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>

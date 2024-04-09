@@ -1,6 +1,7 @@
 package com.example.wishlist.repository;
 
 import com.example.wishlist.model.Account;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +9,17 @@ import java.util.List;
 
 @Repository
 public class WishlistRepository {
+
+
+    @Value("${spring.datasource.url}")
+    private String db_url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+
+
+
     public WishlistRepository() {
     }
 
