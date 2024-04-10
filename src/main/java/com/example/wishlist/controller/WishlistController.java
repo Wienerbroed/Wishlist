@@ -2,6 +2,7 @@ package com.example.wishlist.controller;
 
 import com.example.wishlist.model.Account;
 import com.example.wishlist.model.Wishlist;
+import com.example.wishlist.service.ItemService;
 import com.example.wishlist.service.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,8 @@ import java.util.List;
 public class WishlistController {
 
     private final WishlistService wishlistService;
+  //  private final ItemService itemService;
+   // private final ItemService itemService;
 
     public WishlistController(WishlistService wishlistService) {
         this.wishlistService = wishlistService;
@@ -47,5 +50,10 @@ public class WishlistController {
         wishlistService.deleteWishlist(id);
     }
 
+
+   // @PostMapping("/addItem")
+  ///  public void addItemToWishlist(@RequestParam int wishlistId, @RequestBody Wishlist item) {
+   ///7     itemService.addItemToWishlist(wishlistId, item);
+   // }
 
 }
