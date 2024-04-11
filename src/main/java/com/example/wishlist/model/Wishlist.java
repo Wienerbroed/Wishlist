@@ -1,51 +1,63 @@
 package com.example.wishlist.model;
 
-import java.util.List;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "Wishlists")
 public class Wishlist {
-    private int id;
-    private String name;
-    private String description;
-    private int price;
-    private List<String> tags;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "WishlistID")
+    private int wishlistId;
+
+    @Column(name = "WishlistName")
+    private String wishlistName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UserID")
+    private Account account;
+
+    // Constructors
     public Wishlist() {
     }
 
-    public Wishlist(String name, String description, int price, List<String> tags) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.tags = tags;
+    public Wishlist(String wishlistName) {
+        this.wishlistName = wishlistName;
     }
 
-
-    public String getName() {
-        return name;
+    // Getters and Setters
+    public int getWishlistId() {
+        return wishlistId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setWishlistId(int wishlistId) {
+        this.wishlistId = wishlistId;
     }
 
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description){
-        this.description= description;
+    public String getWishlistName() {
+        return wishlistName;
     }
 
-    public int getPrice() {
-        return price;
-    }
-    public void setPrice(int price){
-        this.price = price;
+    public void setWishlistName(String wishlistName) {
+        this.wishlistName = wishlistName;
     }
 
-    public List<String> getTags() {
-        return tags;
+    public Account getAccount() {
+        return account;
     }
-    public void setTags(List<String> tags){
-        this.tags= tags;
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    // toString method
+    @Override
+    public String toString() {
+        return "Wishlist{" +
+                "wishlistId=" + wishlistId +
+                ", wishlistName='" + wishlistName + '\'' +
+                ", account=" + account +
+                '}';
     }
 }

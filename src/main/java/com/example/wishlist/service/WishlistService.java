@@ -1,23 +1,44 @@
 package com.example.wishlist.service;
 
+import com.example.wishlist.model.Wishlist;
 import com.example.wishlist.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WishlistService {
-    private static WishlistRepository wishlistRepo;
-
+    private final WishlistRepository wishlistRepository;
+    private  final UserService userService;
 
     @Autowired
-    public WishlistService(WishlistRepository wishlistRepo) {
-        this.wishlistRepo = wishlistRepo;
+    public WishlistService(WishlistRepository wishlistRepository,UserService userService) {
+        this.wishlistRepository = wishlistRepository;
+        this.userService = userService;
     }
 
-    public static void registerAccount(String username, String password) {
-        wishlistRepo.registerAccount(username, password);
+    public Wishlist addWishlist(Wishlist wishlist, String userIdString) {
+        if (userIdString != null && !userIdString.isEmpty()) {
+            int userId = Integer.parseInt(userIdString);
+
+            if (wishlist.getWishlistName() == null || wishlist.getWishlistName().isEmpty() || wishlist.getWishlistName().length() > 100) {
+                throw new IllegalArgumentException("Wishlist name must be between 1 and 100 characters.");
+            }
+
+            if (wishlistRepository.existsByNameAndUserId(wishlist.getWishlistName(), userId)) {
+                throw new IllegalStateException("Wishlist with the same name already exists for this user.");
+            }
+
+            return wishlistRepository.addWishlist(wishlist, userId);
+        } else {
+            throw new IllegalArgumentException("User ID is null or empty.");
+        }
     }
-    public static boolean login(String username, String password) {
-        return wishlistRepo.login(username, password);
+
+    public List<Wishlist> getWishlistsByUserId(int userId) {
+        List<Wishlist> wishlists = wishlistRepository.findByUserId(userId);
+        return wishlists;
     }
+
 }

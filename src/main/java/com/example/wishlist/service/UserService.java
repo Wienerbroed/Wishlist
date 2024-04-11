@@ -62,4 +62,7 @@ public class UserService {
         accountRepository.save(account);
     }
 
+    public Account getAccountByUsername(String username) {
+        return accountRepository.findByUsername(username);
+    }
 }

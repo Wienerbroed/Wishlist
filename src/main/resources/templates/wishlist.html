@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title yeeeees</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-<h1>very nice Wishlist</h1>
+<h1>Create Wishlist</h1>
+<form action="/wishlist/add" method="post" >
+    <label for="wishlistName">Wishlist Name:</label><br>
+    <input type="text" id="wishlistName" name="wishlistName" required><br><br>
+    <input type="submit" value="Create Wishlist">
+</form>
+
+<h2>Existing Wishlists</h2>
+<ul>
+    <!-- Use Thymeleaf to iterate over the list of existing wishlists -->
+    <li th:each="wishlist : ${wishlists}" th:text="${wishlist.WishlistName}"></li>
+</ul>
 </body>
 </html>
