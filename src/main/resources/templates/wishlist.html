@@ -15,9 +15,13 @@
 </form>
 
 <h2>Existing Wishlists</h2>
+
 <ul>
-    <!-- Use Thymeleaf to iterate over the list of existing wishlists -->
-    <li th:each="wishlist : ${wishlists}" th:text="${wishlist.WishlistName}"></li>
+    <li th:each="wishlist : ${wishlists}">
+        <a th:href="@{/wishlist/{wishlistId}(wishlistId=${wishlist.wishlistId})}">
+            <span th:text="${wishlist.wishlistName}"></span>
+        </a>
+    </li>
 </ul>
 </body>
 </html>

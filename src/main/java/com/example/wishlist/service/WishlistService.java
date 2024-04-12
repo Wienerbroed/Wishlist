@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WishlistService {
@@ -40,5 +41,13 @@ public class WishlistService {
         List<Wishlist> wishlists = wishlistRepository.findByUserId(userId);
         return wishlists;
     }
+
+
+    public Wishlist getWishlistById(int wishlistId) {
+        return wishlistRepository.getWishlistIdById(wishlistId);
+    }
+
+
+
 
 }

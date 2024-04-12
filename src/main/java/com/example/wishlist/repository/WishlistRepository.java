@@ -81,5 +81,23 @@ public class WishlistRepository {
         return wishlists;
     }
 
-
+    public Wishlist getWishlistIdById(int wishlistId) {
+        String query = "SELECT * FROM Wishlists WHERE WishlistId = ?";
+        try (Connection connection = DriverManager.getConnection(db_url, username, password);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, wishlistId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Wishlist wishlist = new Wishlist();
+                    wishlist.setWishlistId(resultSet.getInt("WishlistId"));
+                    wishlist.setWishlistName(resultSet.getString("WishlistName"));
+                    // Add other attributes as needed
+                    return wishlist;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Return null if wishlist with the given ID is not found
+    }
 }

@@ -70,5 +70,19 @@ public class WishlistController {
         }
     }
 
+    @GetMapping("/{wishlistId}")
+    public String viewWishlistDetails(@PathVariable("wishlistId") int wishlistId, Model model) {
+        Wishlist wishlist = wishlistService.getWishlistById(wishlistId);
+        model.addAttribute("wishlist", wishlist);
+        return "wishlistDetails";
+    }
+
+
+
+
+
+
+
+
 
 }
