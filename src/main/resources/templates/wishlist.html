@@ -22,8 +22,8 @@
     <tbody>
     <tr th:each="wishlist : ${wishlists}">
         <td>
-                <a th:href="@{'/edit' + '/' + ${wishlist.wishlistId} + }">
-                    <span th:text="${wishlist.wishlistName}"></span>
+            <a  th:href="@{/wishlist/{wishlistId}(wishlistId=${wishlist.wishlistId})}">
+                <span th:text="${wishlist.wishlistName}"></span>
             </a>
         </td>
         <td>
