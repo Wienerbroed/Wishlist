@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Wishlist</title>
+</head>
+<body>
+<h1>Delete Wishlist</h1>
+<p>Are you sure you want to delete the wishlist "<span th:text="${wishlist.wishlistName}"></span>"?</p>
+<form id="deleteForm" action="/wishlist/delete/{wishlistId}" method="post">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Yes, delete" onclick="deleteWishlist()">
+</form>
+<button onclick="cancel()">No, cancel</button>
+
+<script>
+    function deleteWishlist() {
+        document.getElementById("deleteForm").submit();
+    }
+
+    function cancel() {
+        window.location.href = "/wishlist";
+    }
+</script>
+</body>
+</html>

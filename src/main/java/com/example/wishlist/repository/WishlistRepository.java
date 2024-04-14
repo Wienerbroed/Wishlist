@@ -1,31 +1,140 @@
 package com.example.wishlist.repository;
 
 import com.example.wishlist.model.Account;
+import com.example.wishlist.model.Wishlist;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class WishlistRepository {
+
+
+    @Value("${spring.datasource.url}")
+    private String db_url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+
+
     public WishlistRepository() {
     }
 
-    private JdbcTemplate jdbcTemplate;
-
-    public void registerAccount(String username, String password) {
-        String sql = "INSERT INTO accounts (username, password) VALUES (?, ?)";
-        jdbcTemplate.update(sql, username, password);
+    public Wishlist addWishlist(Wishlist wishlist, int userId) {
+        String insertQuery = "INSERT INTO Wishlists (UserID, WishlistName) VALUES (?, ?)";
+        try (Connection connection = DriverManager.getConnection(db_url, username, password);
+             PreparedStatement statement = connection.prepareStatement(insertQuery)) {
+            statement.setInt(1, userId);
+            statement.setString(2, wishlist.getWishlistName());
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("A new wishlist was added successfully!");
+                return wishlist;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-    public boolean login(String username, String password) {
-        String sql = "SELECT * FROM accounts WHERE username = ? AND password = ?";
-        List<Account> accounts = jdbcTemplate.query(sql, new Object[]{username, password}, (rs, rowNum) -> {
-            Account account = new Account();
-            account.setUsername(rs.getString("username"));
-            account.setPassword(rs.getString("password"));
-            return account;
-        });
 
-        return !accounts.isEmpty();
+    public boolean deleteWishlist(int wishlistId, List<Integer> itemId) {
+        // Delete associated items
+        if (itemId != null && !itemId.isEmpty()) {
+            for (Integer itemIds : itemId) {
+                deleteItem(itemIds);
+            }
+        }
+
+        // Delete the wishlist itself
+        String query = "DELETE FROM Wishlists WHERE WishlistID = ?";
+        try (Connection connection = DriverManager.getConnection(db_url, username, password);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, wishlistId);
+            int rowsDeleted = statement.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
+
+    private void deleteItem(int itemId) {
+        String query = "DELETE FROM Items WHERE wishlistid = ?";
+        try (Connection connection = DriverManager.getConnection(db_url, username, password);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, itemId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean existsByNameAndUserId(String name, int userId) {
+        String query = "SELECT COUNT(*) FROM Wishlists WHERE WishlistName = ? AND UserID = ?";
+        try (Connection connection = DriverManager.getConnection(db_url, username, password);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, name);
+            statement.setInt(2, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<Wishlist> findByUserId(int userId) {
+        List<Wishlist> wishlists = new ArrayList<>();
+        String query = "SELECT * FROM Wishlists WHERE UserID = ?";
+        try (Connection connection = DriverManager.getConnection(db_url, username, password);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Wishlist wishlist = new Wishlist();
+                    wishlist.setWishlistId(resultSet.getInt("WishlistId")); // Set wishlistId as int
+                    wishlist.setWishlistName(resultSet.getString("WishlistName"));
+                    wishlists.add(wishlist);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return wishlists;
+    }
+
+    public Wishlist getWishlistIdById(int wishlistId) {
+        String query = "SELECT * FROM Wishlists WHERE WishlistId = ?";
+        try (Connection connection = DriverManager.getConnection(db_url, username, password);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, wishlistId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Wishlist wishlist = new Wishlist();
+                    wishlist.setWishlistId(resultSet.getInt("WishlistId"));
+                    wishlist.setWishlistName(resultSet.getString("WishlistName"));
+                    // Add other attributes as needed
+                    return wishlist;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Return null if wishlist with the given ID is not found
+    }
+
+
+
+
+
+
 }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<h1>Create Wishlist</h1>
+<form action="/wishlist/add" method="post" >
+    <label for="wishlistName">Wishlist Name:</label><br>
+    <input type="text" id="wishlistName" name="wishlistName" required><br><br>
+    <input type="submit" value="Create Wishlist">
+</form>
+
+<h2>Existing Wishlists</h2>
+
+<table>
+    <thead>
+    </thead>
+    <tbody>
+    <tr th:each="wishlist : ${wishlists}">
+        <td>
+            <a  th:href="@{/wishlist/{wishlistId}(wishlistId=${wishlist.wishlistId})}">
+                <span th:text="${wishlist.wishlistName}"></span>
+            </a>
+        </td>
+        <td>
+            <form th:action="@{/wishlist/delete/{wishlistId}(wishlistId=${wishlist.wishlistId})}" method="post">
+                <input type="hidden" name="itemId" value=""> <!-- You can add item ID here if needed -->
+                <input type="hidden" name="wishlistId" th:value="${wishlist.wishlistId}">
+                <input type="submit" value="Delete">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
