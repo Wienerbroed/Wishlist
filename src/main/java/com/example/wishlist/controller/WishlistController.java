@@ -77,12 +77,14 @@ public class WishlistController {
         return "wishlistDetails";
     }
 
-    @GetMapping("/delete/{wishlistId}")
-    public String deleteWishlistConfirmation(@PathVariable int wishlistId, @RequestParam(required = false) Integer itemId) {
+   /* @GetMapping("/delete/{wishlistId}")
+    public String deleteWishlistConfirmation(@PathVariable int wishlistId, @RequestParam(required = false) List<Integer> itemId) {
         Wishlist wishlist = wishlistService.getWishlistById(wishlistId);
         wishlistService.deleteWishlist(wishlistId,itemId);
         return "deleteWishlist";
     }
+    */
+
     /*
     @GetMapping("/delete/{wishlistId}")
     public String deleteWishlistConfirmation(@PathVariable int wishlistId, Model model) {
@@ -93,12 +95,15 @@ public class WishlistController {
     */
 
     @PostMapping("/delete/{wishlistId}")
-    public String deleteWishlist(@PathVariable int wishlistId, @RequestParam(required = false) Integer itemId) {
+    public String deleteWishlist(@PathVariable int wishlistId, @RequestParam(required = false) List<Integer> itemId) {
         if (itemId != null) {
             wishlistService.deleteWishlist(wishlistId, itemId);
         }
         return "redirect:/wishlist";
     }
+
+
+
 
 
 

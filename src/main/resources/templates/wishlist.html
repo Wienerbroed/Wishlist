@@ -22,12 +22,12 @@
     <tbody>
     <tr th:each="wishlist : ${wishlists}">
         <td>
-            <a th:href="@{/wishlist/{wishlistId}(wishlistId=${wishlist.wishlistId})}">
-                <span th:text="${wishlist.wishlistName}"></span>
+                <a th:href="@{'/edit' + '/' + ${wishlist.wishlistId} + }">
+                    <span th:text="${wishlist.wishlistName}"></span>
             </a>
         </td>
         <td>
-            <form action="/wishlist/delete/{wishlistId}" method="post">
+            <form th:action="@{/wishlist/delete/{wishlistId}(wishlistId=${wishlist.wishlistId})}" method="post">
                 <input type="hidden" name="itemId" value=""> <!-- You can add item ID here if needed -->
                 <input type="hidden" name="wishlistId" th:value="${wishlist.wishlistId}">
                 <input type="submit" value="Delete">
