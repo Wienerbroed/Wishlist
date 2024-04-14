@@ -16,12 +16,26 @@
 
 <h2>Existing Wishlists</h2>
 
-<ul>
-    <li th:each="wishlist : ${wishlists}">
-        <a th:href="@{/wishlist/{wishlistId}(wishlistId=${wishlist.wishlistId})}">
-            <span th:text="${wishlist.wishlistName}"></span>
-        </a>
-    </li>
-</ul>
+<table>
+    <thead>
+    </thead>
+    <tbody>
+    <tr th:each="wishlist : ${wishlists}">
+        <td>
+            <a th:href="@{/wishlist/{wishlistId}(wishlistId=${wishlist.wishlistId})}">
+                <span th:text="${wishlist.wishlistName}"></span>
+            </a>
+        </td>
+        <td>
+            <form action="/wishlist/delete/{wishlistId}" method="post">
+                <input type="hidden" name="itemId" value=""> <!-- You can add item ID here if needed -->
+                <input type="hidden" name="wishlistId" th:value="${wishlist.wishlistId}">
+                <input type="submit" value="Delete">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
 </body>
 </html>

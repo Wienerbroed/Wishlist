@@ -22,7 +22,6 @@ public class WishlistRepository {
     private String password;
 
 
-
     public WishlistRepository() {
     }
 
@@ -42,6 +41,20 @@ public class WishlistRepository {
         }
         return null;
     }
+
+    public boolean deleteWishlist(int wishlistId, int itemId) {
+        String query = "DELETE FROM Wishlists WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(db_url, username, password);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, wishlistId);
+            statement.setInt(2, itemId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     public boolean existsByNameAndUserId(String name, int userId) {
         String query = "SELECT COUNT(*) FROM Wishlists WHERE WishlistName = ? AND UserID = ?";
@@ -100,4 +113,10 @@ public class WishlistRepository {
         }
         return null; // Return null if wishlist with the given ID is not found
     }
+
+
+
+
+
+
 }
