@@ -3,6 +3,7 @@ package com.example.wishlist.service;
 import com.example.wishlist.model.Account;
 import com.example.wishlist.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service; // Import Spring's @Service annotation
 
 import java.sql.Connection;
@@ -17,12 +18,15 @@ public class UserService {
     @Autowired
     private AccountRepository accountRepository;
 
-    private static final String JDBC_URL = "jdbc:mysql://myfirstserverkeapaul.mysql.database.azure.com:3306/wishlist_db";
-    private static final String USERNAME = "rootcode";
-    private static final String PASSWORD = "kea1234!";
 
+    @Value("${spring.datasource.url}")
+    private String db_url;
+    @Value("${spring.datasource.username}")
+    private String USERNAME;
+    @Value("${spring.datasource.password}")
+    private String PASSWORD;
     public boolean isValidUser(String username, String password) {
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
+        try (Connection connection = DriverManager.getConnection(db_url,USERNAME, PASSWORD)) {
             String query = "SELECT COUNT(*) FROM users WHERE username = ? AND password = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, username);
@@ -42,7 +46,7 @@ public class UserService {
 
     public String getUserIdByUsername(String username) {
 
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD)) {
+        try (Connection connection = DriverManager.getConnection(db_url, USERNAME, PASSWORD)) {
             String query = "SELECT userid FROM users WHERE username = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, username);
