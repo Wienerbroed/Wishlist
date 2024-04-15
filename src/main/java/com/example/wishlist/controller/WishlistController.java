@@ -1,5 +1,6 @@
 package com.example.wishlist.controller;
 
+import com.example.wishlist.service.ItemService;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 
@@ -26,6 +27,9 @@ public class WishlistController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ItemService itemService;
 
 
     @GetMapping("")
@@ -67,6 +71,26 @@ public class WishlistController {
 
 
             return "redirect:/wishlist";
+        }
+    }
+
+    @PostMapping("/addItem")
+    public String addItemToWishlist(@RequestParam("wishlistId") int wishlistId,
+                                    @RequestParam("itemName") String itemName,
+                                    @RequestParam("description") String description,
+                                    @RequestParam("price") int price,
+                                    RedirectAttributes redirectAttributes) {
+        try {
+            // Call the ItemService to add the item to the wishlist
+            itemService.addItemToWishlist(wishlistId, itemName, description, price);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Item added successfully to wishlist.");
+
+            // Redirect back to the wishlist details page
+            return "redirect:/wishlist/" + wishlistId;
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/wishlist/" + wishlistId;
         }
     }
 
