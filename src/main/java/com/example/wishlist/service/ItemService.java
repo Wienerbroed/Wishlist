@@ -4,6 +4,9 @@ import com.example.wishlist.model.Item;
 import com.example.wishlist.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ItemService {
@@ -22,4 +25,9 @@ public class ItemService {
         // Call the repository method to add the item to the wishlist
         itemRepository.addItemToWishlist(wishlistId, newItem);
     }
+
+    public List<Item> getItemsByWishlistId(int wishlistId) {
+        return itemRepository.getItemsByWishlistId(wishlistId);
+    }
+
 }

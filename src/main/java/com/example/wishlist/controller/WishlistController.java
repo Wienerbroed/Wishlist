@@ -1,5 +1,6 @@
 package com.example.wishlist.controller;
 
+import com.example.wishlist.model.Item;
 import com.example.wishlist.service.ItemService;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
@@ -97,7 +98,9 @@ public class WishlistController {
     @GetMapping("/{wishlistId}")
     public String viewWishlistDetails(@PathVariable("wishlistId") int wishlistId, Model model) {
         Wishlist wishlist = wishlistService.getWishlistById(wishlistId);
+        List<Item> items = itemService.getItemsByWishlistId(wishlistId); // Fetch items for the wishlist
         model.addAttribute("wishlist", wishlist);
+        model.addAttribute("items", items); // Add items to the model
         return "wishlistDetails";
     }
 
