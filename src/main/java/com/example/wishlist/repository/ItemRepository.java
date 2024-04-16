@@ -3,6 +3,9 @@ package com.example.wishlist.repository;
 import org.springframework.stereotype.Repository;
 import com.example.wishlist.model.Item;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.List;
+
 @Repository
 public class ItemRepository {
 
@@ -24,4 +27,14 @@ public class ItemRepository {
         String sql = "UPDATE wishlistitems SET itemname = ?, description = ?, price = ? WHERE wishlistid = ? AND id = ?";
         jdbcTemplate.update(sql, newItem.getName(), newItem.getDescription(), newItem.getPrice(), wishlistId, itemId);
     }
+
+    public List<Item> getItemsByWishlistId(int wishlistId) {
+        String sql = "SELECT * FROM wishlistItems WHERE wishlistId = ?";
+        return jdbcTemplate.query(sql, new Object[]{wishlistId}, (resultSet, rowNum) ->
+                new Item(resultSet.getString("itemname"),
+                        resultSet.getString("description"),
+                        resultSet.getInt("price"))
+        );
+    }
+
 }

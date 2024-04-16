@@ -1,0 +1,74 @@
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Basic styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    text-align: center; /* Center all content */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center; /* Center content within container */
+}
+
+h1, h2 {
+    margin-bottom: 10px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label[for="wishlistName"] {
+    display: block;
+    margin-bottom: 5px;
+    text-align: center; /* Center text */
+    font-size: 18px; /* Increase font size */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto; /* Center the table */
+}
+
+table th, table td {
+    padding: 8px;
+    text-align: center; /* Center align table content */
+    border-bottom: 1px solid #ddd; /* Add line separating table rows */
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+.wishlist-name, .wishlist-submit {
+    width: calc(50% - 5px); /* Adjust width for both elements */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: inline-block; /* Ensures span respects width */
+    text-align: center; /* Center aligns the text */
+    box-sizing: border-box; /* Include padding and border in the width */
+}
+
+.wishlist-submit {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid #007bff; /* Same border for all buttons */
+}
+
+.wishlist-submit:hover {
+    background-color: #0056b3;
+    border: 1px solid #0056b3; /* Border color change on hover */
+}
