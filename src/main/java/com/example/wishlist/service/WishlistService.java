@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class WishlistService {
@@ -47,11 +46,9 @@ public class WishlistService {
         return wishlistRepository.getWishlistIdById(wishlistId);
     }
 
-    public boolean deleteWishlist(int wishlistId,  List<Integer> itemId) {
+    public boolean deleteWishlist(int wishlistId, List<Integer> itemId) {
        return wishlistRepository.deleteWishlist(wishlistId, itemId);
     }
-
-
 
 
 }

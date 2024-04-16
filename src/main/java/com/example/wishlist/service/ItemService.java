@@ -30,4 +30,14 @@ public class ItemService {
         return itemRepository.getItemsByWishlistId(wishlistId);
     }
 
+    public Item findItemByName(String name) {
+        return itemRepository.findItemByName(name);
+    }
+    public int getWishlistIdByItemName(String name) {
+        return itemRepository.getWishlistIdByItemName(name);
+    }
+
+    public void removeItemFromWishlist(int wishlistId, String name) {
+        itemRepository.removeItemFromWishlist(wishlistId, name);
+    }
 }

@@ -40,5 +40,13 @@
     <button type="submit">Add Item</button>
 </form>
 
+
+<form method="post" action="/wishlist/item/delete">
+    <input type="hidden" name="wishlistId" th:value="${wishlist.wishlistId}"/>
+    <label for="deleteItemName">Name:</label><br>
+    <input type="text" id="deleteItemName" name="itemName" required><br><br>
+    <button type="submit">Delete Item</button>
+</form>
+
 </body>
 </html>

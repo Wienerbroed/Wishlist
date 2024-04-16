@@ -113,10 +113,18 @@ public class WishlistController {
         return "redirect:/wishlist";
     }
 
-
-
-
-
-
+    @PostMapping("/item/delete")
+    public String deleteItemFromWishlist(@RequestParam("wishlistId") int wishlistId,
+                                         @RequestParam("itemName") String itemName,
+                                         RedirectAttributes redirectAttributes) {
+        try {
+            itemService.removeItemFromWishlist(wishlistId, itemName);
+            redirectAttributes.addFlashAttribute("successMessage", "Item deleted successfully from wishlist.");
+            return "redirect:/wishlist/" + wishlistId;
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/wishlist/" + wishlistId;
+        }
+    }
 
 }

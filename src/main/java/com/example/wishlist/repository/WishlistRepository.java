@@ -78,6 +78,7 @@ public boolean deleteWishlist(int wishlistId, List<Integer> itemId) {
         }
     }
 
+
     public boolean existsByNameAndUserId(String name, int userId) {
         String query = "SELECT COUNT(*) FROM Wishlists WHERE WishlistName = ? AND UserID = ?";
         try (Connection connection = DriverManager.getConnection(db_url, username, password);
