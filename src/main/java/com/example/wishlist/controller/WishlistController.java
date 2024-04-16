@@ -104,22 +104,6 @@ public class WishlistController {
         return "wishlistDetails";
     }
 
-   /* @GetMapping("/delete/{wishlistId}")
-    public String deleteWishlistConfirmation(@PathVariable int wishlistId, @RequestParam(required = false) List<Integer> itemId) {
-        Wishlist wishlist = wishlistService.getWishlistById(wishlistId);
-        wishlistService.deleteWishlist(wishlistId,itemId);
-        return "deleteWishlist";
-    }
-    */
-
-    /*
-    @GetMapping("/delete/{wishlistId}")
-    public String deleteWishlistConfirmation(@PathVariable int wishlistId, Model model) {
-        Wishlist wishlist = wishlistService.getWishlistById(wishlistId);
-        model.addAttribute("wishlistId", wishlistId);
-        return "deleteWishlist";
-    }
-    */
 
     @PostMapping("/delete/{wishlistId}")
     public String deleteWishlist(@PathVariable int wishlistId, @RequestParam(required = false) List<Integer> itemId) {
