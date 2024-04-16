@@ -42,35 +42,39 @@ public class WishlistRepository {
         return null;
     }
 
-    public boolean deleteWishlist(int wishlistId, List<Integer> itemId) {
-        // Delete associated items
+public boolean deleteWishlist(int wishlistId, List<Integer> itemId) {
+    try (Connection connection = DriverManager.getConnection(db_url, username, password)) {
+        connection.setAutoCommit(false);
+
         if (itemId != null && !itemId.isEmpty()) {
-            for (Integer itemIds : itemId) {
-                deleteItem(itemIds);
+            for (Integer item : itemId) {
+                deleteItem(connection, item);
             }
         }
 
-        // Delete the wishlist itself
         String query = "DELETE FROM Wishlists WHERE WishlistID = ?";
-        try (Connection connection = DriverManager.getConnection(db_url, username, password);
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, wishlistId);
             int rowsDeleted = statement.executeUpdate();
-            return rowsDeleted > 0;
+            if (rowsDeleted > 0) {
+                connection.commit();
+                return true;
+            }
         } catch (SQLException e) {
+            connection.rollback();
             e.printStackTrace();
         }
-        return false;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return false;
+}
 
-    private void deleteItem(int itemId) {
-        String query = "DELETE FROM Items WHERE wishlistid = ?";
-        try (Connection connection = DriverManager.getConnection(db_url, username, password);
-             PreparedStatement statement = connection.prepareStatement(query)) {
+    private void deleteItem(Connection connection, int itemId) throws SQLException {
+        String query = "DELETE FROM Items WHERE ItemID = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, itemId);
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
