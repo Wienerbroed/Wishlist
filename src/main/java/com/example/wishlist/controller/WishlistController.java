@@ -75,25 +75,7 @@ public class WishlistController {
         }
     }
 
-    @PostMapping("/addItem")
-    public String addItemToWishlist(@RequestParam("wishlistId") int wishlistId,
-                                    @RequestParam("itemName") String itemName,
-                                    @RequestParam("description") String description,
-                                    @RequestParam("price") int price,
-                                    RedirectAttributes redirectAttributes) {
-        try {
-            // Call the ItemService to add the item to the wishlist
-            itemService.addItemToWishlist(wishlistId, itemName, description, price);
 
-            redirectAttributes.addFlashAttribute("successMessage", "Item added successfully to wishlist.");
-
-            // Redirect back to the wishlist details page
-            return "redirect:/wishlist/" + wishlistId;
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/wishlist/" + wishlistId;
-        }
-    }
 
     @GetMapping("/{wishlistId}")
     public String viewWishlistDetails(@PathVariable("wishlistId") int wishlistId, Model model) {
@@ -113,19 +95,6 @@ public class WishlistController {
         return "redirect:/wishlist";
     }
 
-    @PostMapping("/item/delete")
-    public String deleteItemFromWishlist(@RequestParam("wishlistId") int wishlistId,
-                                         @RequestParam("itemName") String itemName,
-                                         RedirectAttributes redirectAttributes) {
-        try {
-            itemService.removeItemFromWishlist(wishlistId, itemName);
-            redirectAttributes.addFlashAttribute("successMessage", "Item deleted successfully from wishlist.");
-            return "redirect:/wishlist/" + wishlistId;
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/wishlist/" + wishlistId;
-        }
-    }
 
     @PostMapping("/update/{wishlistId}")
     public String updateWishlistName(@PathVariable int wishlistId, @RequestParam("newWishlistName") String newWishlistName, RedirectAttributes redirectAttributes) {
@@ -141,4 +110,7 @@ public class WishlistController {
         }
         return "redirect:/wishlist";
     }
+
+
+
 }

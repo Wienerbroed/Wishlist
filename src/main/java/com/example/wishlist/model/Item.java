@@ -1,8 +1,14 @@
 package com.example.wishlist.model;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
+import java.beans.ConstructorProperties;
 
+@Entity
+@Table(name = "WishlistItems")
 public class Item {
     //Max length for attributes
     private static final int maxLengthName = 25;
@@ -12,11 +18,30 @@ public class Item {
     private String name;
     private String description;
     private int price;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int itemId;
 
-    public Item(String name, String description, int price) {
+
+    // Constructor without id
+    @JsonCreator
+    public Item(@JsonProperty("name") String name,
+                @JsonProperty("description") String description,
+                @JsonProperty("price") int price) {
         this.name = name;
         this.description = description;
         this.price = price;
+    }
+
+    public Item(int itemId, String name, String description, int price) {
+        this.itemId = itemId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
+    public Item() {
+
     }
 
     //getters
@@ -31,7 +56,9 @@ public class Item {
     public int getPrice() {
         return price;
     }
-
+    public int getItemId() {
+        return itemId;
+    }
     //Setters
     public void setName(String name) {
         if (name.length()>maxLengthName){
@@ -50,4 +77,8 @@ public class Item {
     public void setPrice(int price) {
         this.price = price;
     }
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
 }

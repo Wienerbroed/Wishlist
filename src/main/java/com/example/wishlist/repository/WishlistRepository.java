@@ -127,14 +127,14 @@ public boolean deleteWishlist(int wishlistId, List<Integer> itemId) {
                     Wishlist wishlist = new Wishlist();
                     wishlist.setWishlistId(resultSet.getInt("WishlistId"));
                     wishlist.setWishlistName(resultSet.getString("WishlistName"));
-                    // Add other attributes as needed
+
                     return wishlist;
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // Return null if wishlist with the given ID is not found
+        return null;
     }
 
     public boolean updateWishlistName(int wishlistId, String newWishlistName) {

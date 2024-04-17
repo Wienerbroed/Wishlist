@@ -18,13 +18,21 @@
         <th>Name</th>
         <th>Description</th>
         <th>Price</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="item : ${items}">
-        <td th:text="${item.name}"></td>
-        <td th:text="${item.description}"></td>
-        <td th:text="${item.price}"></td>
+        <td th:if="${item != null}" th:text="${item.name}"></td>
+        <td th:if="${item != null}" th:text="${item.description}"></td>
+        <td th:if="${item != null}" th:text="${item.price}"></td>
+        <td>
+            <!-- Edit button navigates to editItem page with item id -->
+            <a th:href="@{'/wishlist/' + ${wishlist.wishlistId} + '/items/' + ${item.itemId} + '/edit'}">
+                <button type="button">Edit</button>
+            </a>
+
+        </td>
     </tr>
     </tbody>
 </table>

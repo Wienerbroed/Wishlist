@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -18,12 +19,11 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public void addItemToWishlist(int wishlistId, String itemName, String description, int price) {
-        // Create a new item
+    public int addItemToWishlist(int wishlistId, String itemName, String description, int price) {
         Item newItem = new Item(itemName, description, price);
 
-        // Call the repository method to add the item to the wishlist
-        itemRepository.addItemToWishlist(wishlistId, newItem);
+        int itemId = itemRepository.addItemToWishlist(wishlistId, newItem);
+        return itemId;
     }
 
     public List<Item> getItemsByWishlistId(int wishlistId) {
@@ -40,4 +40,17 @@ public class ItemService {
     public void removeItemFromWishlist(int wishlistId, String name) {
         itemRepository.removeItemFromWishlist(wishlistId, name);
     }
+
+
+    public void editItemInWishlist(int wishlistId, int itemId, Item newItem) {
+        itemRepository.editItemInWishlist(wishlistId, itemId, newItem);
+    }
+
+    public Item getItemById(int itemId) {
+        Item item = itemRepository.getItemById(itemId);
+        return item;
+    }
+
+
+
 }
