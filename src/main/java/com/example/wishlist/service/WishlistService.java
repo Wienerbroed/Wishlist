@@ -49,6 +49,8 @@ public class WishlistService {
     public boolean deleteWishlist(int wishlistId, List<Integer> itemId) {
        return wishlistRepository.deleteWishlist(wishlistId, itemId);
     }
-
+    public boolean updateWishlistName(int wishlistId, String newWishlistName) {
+        return wishlistRepository.updateWishlistName(wishlistId, newWishlistName);
+    }
 
 }

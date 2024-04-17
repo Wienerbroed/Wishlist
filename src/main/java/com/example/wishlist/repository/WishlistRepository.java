@@ -137,7 +137,19 @@ public boolean deleteWishlist(int wishlistId, List<Integer> itemId) {
         return null; // Return null if wishlist with the given ID is not found
     }
 
-
+    public boolean updateWishlistName(int wishlistId, String newWishlistName) {
+        String updateQuery = "UPDATE Wishlists SET WishlistName = ? WHERE WishlistID = ?";
+        try (Connection connection = DriverManager.getConnection(db_url, username, password);
+             PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+            statement.setString(1, newWishlistName);
+            statement.setInt(2, wishlistId);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 

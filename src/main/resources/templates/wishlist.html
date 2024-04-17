@@ -43,6 +43,13 @@
                     <input type="hidden" name="wishlistId" th:value="${wishlist.wishlistId}">
                     <input type="submit" value="Delete" class="wishlist-submit">
                 </form>
+                <form method="post" th:action="@{/wishlist/update/{wishlistId}(wishlistId=${wishlist.wishlistId})}">
+                    <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" name="wishlistId" th:value="${wishlist.wishlistId}">
+                    <label for="newWishlistName">New Wishlist Name:</label><br>
+                    <input type="text" id="newWishlistName" name="newWishlistName" required><br><br>
+                    <button type="submit">Update Wishlist Name</button>
+                </form>
             </td>
         </tr>
         </tbody>

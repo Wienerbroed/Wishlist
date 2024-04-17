@@ -127,4 +127,18 @@ public class WishlistController {
         }
     }
 
+    @PostMapping("/update/{wishlistId}")
+    public String updateWishlistName(@PathVariable int wishlistId, @RequestParam("newWishlistName") String newWishlistName, RedirectAttributes redirectAttributes) {
+        try {
+            boolean updated = wishlistService.updateWishlistName(wishlistId, newWishlistName);
+            if (updated) {
+                redirectAttributes.addFlashAttribute("successMessage", "Wishlist name updated successfully.");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "Failed to update wishlist name.");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/wishlist";
+    }
 }
