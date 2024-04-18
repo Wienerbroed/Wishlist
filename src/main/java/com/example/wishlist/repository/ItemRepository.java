@@ -102,11 +102,11 @@ public class ItemRepository {
 
                 return new Item(itemId,name, description, price);
             } else {
-                return null; // Item not found
+                return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null; // Handle the exception
+            return null;
         }
     }
 
